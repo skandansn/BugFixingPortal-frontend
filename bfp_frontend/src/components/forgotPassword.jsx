@@ -28,7 +28,7 @@ const ForgotPassword = () => {
                                         </form>
                                     </div>
                                     <div className="card-footer text-center py-3">
-                                        <div className="small"><Link className="text-light" to="/signUp">Need an account? Sign up!</Link></div>
+                                        <div className="small"><Link className="text-light" to="/registration">Need an account? Sign up!</Link></div>
                                     </div>
                                 </div>
                             </div>

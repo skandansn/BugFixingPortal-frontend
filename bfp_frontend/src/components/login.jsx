@@ -4,7 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 const Login = () => {
-    const API_BASE_URL="http://localhost:8080/";
+    // const API_BASE_URL="http://localhost:8080/";
     const [inputs, setInputs] = useState({});
     // const history = useHistory();
 
@@ -18,6 +18,7 @@ const Login = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
         // axios.post(API_BASE_URL + "login", inputs, { headers: { "Content-Type": "application/json" } }).then(function (res) {
         //     console.log(res)
         //     if (res.data == "success") {
@@ -27,11 +28,11 @@ const Login = () => {
 
         //     }
         // })
-        axios.post(API_BASE_URL+"login",{username:"godskandan@gmail.com",password:"skandan12"},{ headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-        ).then(function (res) {
-            console.log(inputs)
-            console.log(res)
-        })
+        // axios.post(API_BASE_URL+"login",{username:"godskandan@gmail.com",password:"skandan12"},{ headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+        // ).then(function (res) {
+        //     console.log(inputs)
+        //     console.log(res)
+        // })
 
     }
 
@@ -65,9 +66,9 @@ const Login = () => {
                                             </div>
                                             <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <Link className="small text-light" to="/forgotPassword">Forgot Password?</Link>
-                                            <input type="submit" />
+                                            {/* <input type="submit" /> */}
 
-                                                {/* <Link className="btn btn-success" >Login</Link> */}
+                                                <Link to="/" className="btn btn-success" >Login</Link>
                                             </div>
                                         </form>
                                     </div>

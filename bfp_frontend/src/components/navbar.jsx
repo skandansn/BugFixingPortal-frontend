@@ -18,7 +18,7 @@ const NavBar = () => {
             <DropdownButton id="dropdown-basic-button" title={<BsPersonFill/>} className="mr-10" variant="danger">
                 <Dropdown.Item href="#/action-1">{name}</Dropdown.Item>
                 <hr />
-                <Dropdown.Item href="#/action-2">Logout</Dropdown.Item>
+                <Dropdown.Item href="/login">Logout</Dropdown.Item>
             </DropdownButton>
 
         </nav>

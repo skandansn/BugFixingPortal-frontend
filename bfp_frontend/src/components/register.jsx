@@ -77,12 +77,12 @@ const Register = () => {
                                                         <label for="inputPassword">Password</label>
                                                     </div>
                                                 </div>
-                                                {/* <div className="col-md-6">
+                                                <div className="col-md-6">
                                                     <div className="form-floating mb-3 mb-md-0">
                                                         <input className="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
                                                         <label for="inputPasswordConfirm">Confirm Password</label>
                                                     </div>
-                                                </div> */}
+                                                </div>
                                             </div>
                                             <div className="mt-4 mb-0">
                                             <input type="submit" />
