@@ -1,6 +1,7 @@
 import NavBar from "./navbar";
 import axios from 'axios';
 import {useState,useEffect} from "react";
+import { Link } from "react-router-dom";
 
 // Home component to get list of all the projects and display them
 const Home = () => {
@@ -26,8 +27,10 @@ const Home = () => {
             <div className="row">
             <div className="col-md-12">
                 <h1>Projects</h1>
+                <Link to="/createProject/add" className="btn btn-primary">Add Project</Link>
             </div>
             </div>
+            <br></br>
             <div className="row">
             {
                 loading ?
@@ -39,9 +42,9 @@ const Home = () => {
                     <div className="col-md-4" key={project.projectId}>
                     <div className="card">
                         <div className="card-body">
-                        <h5 className="card-title">{project.projectTitle}</h5>
-                        <p className="card-text">{project.projectDesc}</p>
-                        <a href={project.link} target="_blank" className="btn btn-primary">View Project</a>
+                        <h5 className="card-title">{project.projectId} {project.projectTitle}</h5>
+                        <Link to={`/projects/${project.projectId}`} className="btn btn-primary">View Project</Link>
+                        {/* <a href={project.link} target="_blank" className="btn btn-primary">View Project</a> */}
                         </div>
                     </div>
                     </div>

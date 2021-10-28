@@ -22,7 +22,7 @@ const Register = () => {
     event.preventDefault();
     axios.post(API_BASE_URL+"registration",inputs,{headers:{"Content-Type" : "application/json"}}).then(function (res) {
         console.log(res)
-        if (res.data=="success")
+        if (res.data==="success")
         {
             console.log(res);
 

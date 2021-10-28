@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import CreateProject from './components/createProjects';
+import Error from './components/error';
 import ForgotPassword from './components/forgotPassword';
 import Home from './components/home';
 import Login from './components/login';
-import NavBar from './components/navbar';
 import Register from './components/register';
+import ViewProject from './components/viewProject';
 
 function App() {
   return (
@@ -22,11 +23,17 @@ function App() {
             <Route exact path="/forgotPassword">
               <ForgotPassword />
             </Route>
-            <Route exact path="/createProject">
+            <Route exact path="/createProject/:id">
               <CreateProject />
+            </Route>
+            <Route exact path="/projects/:id">
+              <ViewProject />
             </Route>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route exact path="*">
+              <Error />
             </Route>
           </Switch>
         </Router>

@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {useHistory,useParams} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
 
@@ -17,7 +17,36 @@ const CreateProject = () => {
     const [projectFiles, setFiles] = useState('');
     const [projectDownloadNo, setDownloadsCount] = useState(0);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
     const history = useHistory();
+    const id = useParams();
+    const [createOrEdit, setCreateOrEdit] = useState('Create');
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (id.id!=="add") {
+            setLoading(true);
+            axios.get(`http://localhost:8080/projects/${id.id}`)
+                .then(res => {
+                    if (res.data!=="")
+                    {
+                        setCreateOrEdit("Edit");
+                        setLoading(false);
+                    }
+                    else {
+                        setLoading(false);
+                        history.push('/');
+                    }
+
+                    setTitle(res.data.projectTitle);
+                    setDesc(res.data.projectDesc);
+                    setFiles(res.data.projectFiles);
+                    setDownloadsCount(res.data.projectDownloadNo);
+                })
+                .catch(err => console.log(err));
+        }
+        
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +57,17 @@ const CreateProject = () => {
             projectDownloadNo
         };
         console.log(data);
-        axios.post('http://localhost:8080/projects', JSON.stringify(data))
+        if (id.id!=="add") {
+            axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json',}})
+                .then(res => {
+                    console.log(res);
+                    setSuccess("Project Details successfully updated!");
+                })
+                .catch(err => {console.log(err)
+                    setError('Something went wrong');
+                });
+        } else {
+        axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json',} })
             .then(res => {
                 console.log(res);
                 history.push('/');
@@ -38,14 +77,20 @@ const CreateProject = () => {
                 setError('Something went wrong');
             });
     };
-
+    }
     return (
         <div>
             <NavBar/>
+            {
+                loading?  <div className="col-md-12">
+                    <h2>Loading...</h2>
+                </div>
+                :
+            
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
-                        <h1 className="text-center">Create Project</h1>
+                        <h1 className="text-center">{createOrEdit} Project</h1>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="projectTitle">Title</label>
@@ -78,9 +123,12 @@ const CreateProject = () => {
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </form>
                         {error && <div className="alert alert-danger">{error}</div>}
+                        {success && <div className="alert alert-success">{success}</div>}
+
                     </div>
                 </div>
             </div>
+}
         </div>
     );
 };
