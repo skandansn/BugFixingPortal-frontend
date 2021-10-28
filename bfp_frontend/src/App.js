@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
+import CreateProject from './components/createProjects';
 import ForgotPassword from './components/forgotPassword';
 import Home from './components/home';
 import Login from './components/login';
@@ -12,17 +13,20 @@ function App() {
       <div className="content">
         <Router>
           <Switch>
-          <Route exact path="/registration">
-              <Register/>
+            <Route exact path="/registration">
+              <Register />
             </Route>
             <Route exact path="/login">
-              <Login/>
+              <Login />
             </Route>
             <Route exact path="/forgotPassword">
-              <ForgotPassword/>
+              <ForgotPassword />
+            </Route>
+            <Route exact path="/createProject">
+              <CreateProject />
             </Route>
             <Route exact path="/">
-              <Home/>
+              <Home />
             </Route>
           </Switch>
         </Router>
