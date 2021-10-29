@@ -91,6 +91,7 @@ const CreateProject = () => {
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
                         <h1 className="text-center">{createOrEdit} Project</h1>
+                        <hr></hr>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <label htmlFor="projectTitle">Title</label>
@@ -99,6 +100,7 @@ const CreateProject = () => {
                                        onChange={(e) => setTitle(e.target.value)}
                                        placeholder="Enter projectTitle"/>
                             </div>
+                            <br></br>
                             <div className="form-group">
                                 <label htmlFor="projectDesc">Description</label>
                                 <textarea className="form-control" id="projectDesc"
@@ -106,6 +108,7 @@ const CreateProject = () => {
                                             onChange={(e) => setDesc(e.target.value)}
                                             placeholder="Enter description"/>
                             </div>
+                            <br></br>
                             <div className="form-group">
                                 <label htmlFor="projectFiles">Files</label>
                                 <input type="text" className="form-control" id="projectFiles"
@@ -113,6 +116,7 @@ const CreateProject = () => {
                                         onChange={(e) => setFiles(e.target.value)}
                                         placeholder="Enter projectFiles"/>
                             </div>
+                            <br></br>
                             <div className="form-group">
                                 <label htmlFor="projectDownloadNo">Downloads Count</label>
                                 <input type="text" className="form-control" id="projectDownloadNo"
@@ -120,7 +124,8 @@ const CreateProject = () => {
                                         onChange={(e) => setDownloadsCount(e.target.value)}
                                         placeholder="Enter downloads count"/>
                             </div>
-                            <button type="submit" className="btn btn-primary">Submit</button>
+                            <br></br>
+                            <button type="submit" className="btn btn-success">Submit</button>
                         </form>
                         {error && <div className="alert alert-danger">{error}</div>}
                         {success && <div className="alert alert-success">{success}</div>}

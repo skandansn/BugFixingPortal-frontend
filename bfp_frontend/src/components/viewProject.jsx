@@ -42,13 +42,15 @@ const ViewProject = () => {
                 <div>Loading...</div>
             ) : (
                 <div>
-                    <h1>{project.projectId}</h1>
-                    <h1>{project.projectTitle}</h1>
-                    <p>{project.projectDesc}</p>
-                    <p>{project.projectFiles}</p>
-                    <p>{project.projectDownloadNo}</p>
+                    <h1>{project.projectId} | {project.projectTitle}</h1>
+                    <hr></hr>
+                    <p>Description: {project.projectDesc}</p>
+                    <p>Files: {project.projectFiles}</p>
+                    <p>Download Count: {project.projectDownloadNo}</p>
+                    <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
+                    <br></br>
+                    <br></br>
                     <button className="btn btn-danger" onClick={deleteProject} > Delete Project</button>
-                    <Link to={`/createProject/${project.projectId}`} className="btn btn-primary">Edit Project</Link>
 
                 </div>
             )}
