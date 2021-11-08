@@ -8,15 +8,14 @@ const Login = () => {
     const history = useHistory();
     const API_BASE_URL="http://localhost:8080/";
     const [inputs, setInputs] = useState({});
-    const [loggedIn,setLoggedin] = useState(false);
 
     const handleSubmit = (event) => {
+        console.log(inputs);
         event.preventDefault();
         axios.post(API_BASE_URL+"auth/login",inputs)
         .then(res => {
             if(res.status === 200){
                 console.log(res.data);
-                setLoggedin(true);
                 localStorage.setItem("token", res.data.token);
                 //refresh
                 window.location.reload();

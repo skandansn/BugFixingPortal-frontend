@@ -17,6 +17,11 @@ const routes = [
     component: lazy(() => import('../components/viewProject')),
     exact: true
   },
+  {
+    path: '/aboutUser',
+    component: lazy(() => import('../components/aboutUser')),
+    exact: true
+  },
 
 ];
 

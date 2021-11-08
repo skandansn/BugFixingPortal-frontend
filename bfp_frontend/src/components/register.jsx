@@ -5,33 +5,40 @@ import { useState } from 'react';
 
 
 const Register = () => {
+    const history = useHistory();
     const API_BASE_URL="http://localhost:8080/";
     const [inputs, setInputs] = useState({});
-    const history = useHistory();
+    const [error, setError] = useState({});
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        inputs["userRating"] = 0;
+        inputs["userBugsReported"]=0;
+        console.log(inputs);
+
+        axios.post(API_BASE_URL+"auth/register",inputs)
+        .then(res => {
+            if(res.data === "User registered successfully"){
+                history.push("/login");    
+            }
+            else{
+                setError(res.data);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            setError(err.response.data);
+        });
+    }
 
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}))
-  }
 
-  
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    axios.post(API_BASE_URL+"registration",inputs,{headers:{"Content-Type" : "application/json"}}).then(function (res) {
-        console.log(res)
-        if (res.data==="success")
-        {
-            console.log(res);
-
-            history.push("/login");
-
-        }
-            })
-
-  }
+    const handleChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        setInputs(values => ({ ...values, [name]: value }))
+    }
 
  
   
@@ -55,34 +62,35 @@ const Register = () => {
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
                                                     <div className="form-floating mb-3 mb-md-0">
-                                                        <input className="form-control" name="firstName"  id="firstName" type="text" placeholder="Enter your first name" value={inputs.firstName || ""} onChange={handleChange}  />
-                                                        <label for="inputfirstName">First name</label>
+                                                        <input className="form-control" name="userEmail"  type="email"  value={inputs.userEmail || ""} onChange={handleChange}  />
+                                                        <label>Email</label>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-floating">
-                                                        <input className="form-control" name="lastName"  id="lastName" type="text" placeholder="Enter your last name" value={inputs.lastName || ""} onChange={handleChange} />
-                                                        <label for="inputLastName">Last name</label>
+                                                    <input className="form-control" name="userHandle"  type="text"  value={inputs.userHandle || ""} onChange={handleChange}  />
+                                                        <label >Username</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="form-floating mb-3">
-                                                <input className="form-control"  name="email"  id="email" type="email" placeholder="name@example.com" value={inputs.email || ""} onChange={handleChange}/>
-                                                <label for="inputEmail">Email address</label>
+                                            <input className="form-control" name="userBio"  type="text" value={inputs.userBio || ""} onChange={handleChange}  />
+                                                <label >Information about you</label>
                                             </div>
+                                            <div className="col-md-6">
+                                                    <div className="form-floating mb-3 mb-md-0">
+                                                        <input className="form-control"   name="userPic"  type="text" value={inputs.userPic || ""} onChange={handleChange}  />
+                                                        <label >User Picture </label>
+                                                    </div>
+                                                </div>
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
                                                     <div className="form-floating mb-3 mb-md-0">
-                                                        <input className="form-control"  name="password"  id="password" type="password" placeholder="Create Link password" value={inputs.password || ""} onChange={handleChange} />
-                                                        <label for="inputPassword">Password</label>
+                                                        <input className="form-control"  name="userPassword"   type="password"  value={inputs.userPassword || ""} onChange={handleChange} />
+                                                        <label >Password</label>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-6">
-                                                    <div className="form-floating mb-3 mb-md-0">
-                                                        <input className="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
-                                                        <label for="inputPasswordConfirm">Confirm Password</label>
-                                                    </div>
-                                                </div>
+                                          
                                             </div>
                                             <div className="mt-4 mb-0">
                                             <input type="submit" />
