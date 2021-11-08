@@ -12,10 +12,9 @@ const ViewProject = () => {
 
     //delete project
     const deleteProject = () => {
-        axios.delete(`http://localhost:8080/projects/${id.id}`)
+        axios.delete(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
-            console.log(res);
-            history.push("/");
+            history.push("/home");
         })
         .catch(err => {
             console.log(err);
@@ -25,7 +24,7 @@ const ViewProject = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/projects/${id.id}`)
+        axios.get(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setProject(res.data);
             setLoading(false);

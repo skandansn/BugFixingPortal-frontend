@@ -26,7 +26,7 @@ const CreateProject = () => {
     useEffect(() => {
         if (id.id!=="add") {
             setLoading(true);
-            axios.get(`http://localhost:8080/projects/${id.id}`)
+            axios.get(`http://localhost:8080/projects/${id.id}`,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     if (res.data!=="")
                     {
@@ -35,7 +35,7 @@ const CreateProject = () => {
                     }
                     else {
                         setLoading(false);
-                        history.push('/');
+                        history.push('/home');
                     }
 
                     setTitle(res.data.projectTitle);
@@ -56,21 +56,19 @@ const CreateProject = () => {
             projectFiles,
             projectDownloadNo
         };
-        console.log(data);
         if (id.id!=="add") {
-            axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json',}})
+            axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
-                    console.log(res);
                     setSuccess("Project Details successfully updated!");
                 })
                 .catch(err => {console.log(err)
                     setError('Something went wrong');
                 });
         } else {
-        axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json',} })
+        axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')} })
             .then(res => {
                 console.log(res);
-                history.push('/');
+                history.push('/home');
             })
             .catch(err => {
                 console.log(err);

@@ -1,45 +1,65 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import CreateProject from './components/createProjects';
-import Error from './components/error';
-import ForgotPassword from './components/forgotPassword';
-import Home from './components/home';
-import Login from './components/login';
-import Register from './components/register';
-import ViewProject from './components/viewProject';
+import { lazy, Suspense } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
+// import Loader from 'shareComponent/Loader';
+import ProtectedRoutes from './routes/ProtectedRoute'; //Authenticated routes
+import PublicRoute from './routes/PublicRoute'; 
+import PrivateRoute from './routes/PrivateRoute'; 
+import Loader from './routes/Loader';
 
-function App() {
+const LoginPage = lazy(() => import('./components/login'));
+const Register = lazy(() => import('./components/register'));
+const ForgotPassword = lazy(() => import('./components/forgotPassword'));
+const NoFoundComponent = lazy(() => import('./components/error'));
+
+const App = () => {
+
+  function getToken() {
+    // console.log(localStorage)
+    return localStorage.getItem('token');
+  }
+
+
+  const isAuthenticated = getToken();
+
   return (
-    <div className="App">
-      <div className="content">
-        <Router>
-          <Switch>
-            <Route exact path="/registration">
-              <Register />
-            </Route>
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/forgotPassword">
-              <ForgotPassword />
-            </Route>
-            <Route exact path="/createProject/:id">
-              <CreateProject />
-            </Route>
-            <Route exact path="/projects/:id">
-              <ViewProject />
-            </Route>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route exact path="*">
-              <Error />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    </div>
+    <Router>
+      <Suspense fallback={<Loader />}>
+        <Switch>
+          <PublicRoute
+            path="/login"
+            isAuthenticated={isAuthenticated}
+          >
+            <LoginPage />
+          </PublicRoute>
+          <PublicRoute
+            path="/register"
+            isAuthenticated={isAuthenticated}
+          >
+            <Register />
+          </PublicRoute>
+          <PublicRoute
+            path="/forgotPassword"
+            isAuthenticated={isAuthenticated}
+          >
+            <ForgotPassword />
+          </PublicRoute>
+          <PrivateRoute
+            path="/"
+            isAuthenticated={isAuthenticated}
+          >
+            <ProtectedRoutes />
+          </PrivateRoute>
+          <Route path="*">
+            <NoFoundComponent />
+          </Route>
+        </Switch>
+      </Suspense>
+    </Router>
   );
-}
+};
 
 export default App;

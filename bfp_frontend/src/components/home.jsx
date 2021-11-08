@@ -21,7 +21,7 @@ const Home = () => {
     
     useEffect(() => {
         // Get all the projects from the database
-        axios.get('http://localhost:8080/projects')
+        axios.get('http://localhost:8080/projects',{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setProjects(res.data);
             setSearchProjects(res.data);
