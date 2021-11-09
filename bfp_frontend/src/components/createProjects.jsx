@@ -41,7 +41,9 @@ const CreateProject = () => {
         else if(id.id[id.id.length - 1]   === 'i'){
             setCreateOrEdit("Add Issue for Project "+id.id.substring(0,id.id.length-1));
         }  
-    
+        else if (id.id[0]==='s'){
+            setCreateOrEdit("Add Solution for Issue "+id.id[1]);
+        }
         
     }, []);
 
@@ -69,6 +71,17 @@ const CreateProject = () => {
                     setError('Something went wrong');
                 });
         }
+        else if (id.id[0]==='s')
+        {
+            axios.post(`http://localhost:8080/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+                .then(res => {
+                    setSuccess("Solution added successfully!");
+                })
+                .catch(err => {
+                    setError('Something went wrong');
+                });
+        }
+
         // else if (id.id[0]   === 's') 
         // {
 
@@ -89,7 +102,6 @@ const CreateProject = () => {
                     setError('Something went wrong');
                 });
         } else {
-       
         axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')} })
             .then(res => {
                 console.log(res);

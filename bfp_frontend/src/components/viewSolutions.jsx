@@ -11,66 +11,50 @@ import Loader from "../routes/Loader";
 const ViewSolutions = () => {
   const [solutions, setSolutions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const id = useParams()
-
-//   useEffect(() => {
-//     axios.get(`http://localhost:8080/projects/${id.id}/issues/solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
-//     .then(res => {
-//         setSolutions(res.data);
-//         setLoading(false);
-//     })
-//     .catch(err => {
-//         console.log(err);
-//     });
-//   }, []);
+  const {id, id2} = useParams()
+  useEffect(() => {
+    axios.get(`http://localhost:8080/projects/${id.id}/issues/${id2.id}solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
+    .then(res => {
+        setSolutions(res.data);
+        setLoading(false);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+  }, []);
 
   return (
-      //display solutions
-        <div>
-            <NavBar/>
-            <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                <div className="card">
-                    <div className="card-header">
-                    <h4>Solutions</h4>
-                    </div>
-                    <div className="card-body">
-                    <div className="row">
-                        <div className="col-md-12">
-                        <div className="table-responsive">
-                            <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                <th>#</th>
-                                <th>Solution</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {loading ? <Loader/> : solutions.map((solution, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{solution.solution}</td>
-                                    <td>{solution.date}</td>
-                                    <td>{solution.status}</td>
-                                </tr>
-                                ))}
-                            </tbody>
-                            </table>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-        </div>
+    <>
+    <NavBar />
+          <table className="table table-striped">
+              <thead>
+                  <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Files</th>
+                      <th scope="col">Created By</th>
+
+                  </tr>
+              </thead>
+              <tbody>
+                  {/* map through solutions and display them */}
+                  {solutions.map((solution, index) => {
+                      return (
+                          <tr key={index}>
+                              <th scope="row">{index + 1}</th>
+                              <td>{solution.solutionTitle}</td>
+                              <td>{solution.solutionDesc}</td>
+                              <td>{solution.solutionFiles}</td>
+                              <td>{solution.assignedTo}</td>
+                              <td>{solution.createdBy}</td>
+                          </tr>
+                      );
+                  })}
+              </tbody>
+          </table></>
 
 
-   
   );
 };
 export default ViewSolutions;
