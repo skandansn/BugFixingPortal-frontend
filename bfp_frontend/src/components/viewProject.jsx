@@ -10,6 +10,7 @@ const ViewProject = () => {
     const history = useHistory();
     const id = useParams()
 
+
     //delete project
     const deleteProject = () => {
         axios.delete(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
@@ -47,6 +48,15 @@ const ViewProject = () => {
                     <p>Files: {project.projectFiles}</p>
                     <p>Download Count: {project.projectDownloadNo}</p>
                     <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
+                    <Link to={`/createProject/${project.projectId}i`} className="btn btn-warning">Add Issues</Link>
+                    <Link to={`/projects/${project.projectId}/issues`} className="btn btn-secondary">View Issues</Link>
+
+
+                    
+
+
+                    
+
                     <br></br>
                     <br></br>
                     <button className="btn btn-danger" onClick={deleteProject} > Delete Project</button>

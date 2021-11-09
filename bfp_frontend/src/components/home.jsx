@@ -8,6 +8,7 @@ const Home = () => {
     const [projects, setProjects] = useState([]);
     const [Searchprojects, setSearchProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    // const [userProjects, setUserProjects] = useState([]);
 
     const handleSearch = (e) => {
         let value=e.target.value.toLowerCase();
@@ -18,19 +19,51 @@ const Home = () => {
         setProjects(result);
     }
 
+   
+
     
     useEffect(() => {
-        // Get all the projects from the database
-        axios.get('http://localhost:8080/projects',{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
-        .then(res => {
-            setProjects(res.data);
-            setSearchProjects(res.data);
+        const token = localStorage.getItem('token');
+        // const base64Url = token.split('.')[1];
+        // const base64 = base64Url.replace('-', '+').replace('_', '/');
+        // const decodedToken = JSON.parse(window.atob(base64));
+        // console.log();
+        axios.all([
+            axios.get('http://localhost:8080/projects', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }),
+            // axios.get(`http://localhost:8080/projects/user/${decodedToken.sub}`, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`
+            //     }
+            // })
+        
+
+        ])
+        .then(axios.spread((allProjects,userProjectsRes)=>{
+            setProjects(allProjects.data);
+            setSearchProjects(allProjects.data);
+            // setUserProjects(userProjectsRes.data);
             setLoading(false);
-        })
-        .catch(err => {
+        }))
+        .catch(err=>{
             console.log(err);
-        });
+        })
     }, []);
+
+    //     // Get all the projects from the database
+    //     axios.get('http://localhost:8080/projects',{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
+    //     .then(res => {
+    //         setProjects(res.data);
+    //         setSearchProjects(res.data);
+    //         setLoading(false);
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
+    // }, []);
     
     return (
         <div className="bg">
@@ -57,7 +90,7 @@ const Home = () => {
                     <div className="card bg-secondary text-light">
                         <div className="card-body">
                         <h5 className="card-title"><b>ProjectID: {project.projectId}</b> | {project.projectTitle}</h5>
-                        <Link to={`/projects/${project.projectId}`} className="btn btn-danger">View Project</Link>
+                        <Link to={{pathname:`/projects/${project.projectId}`}} className="btn btn-danger">View Project</Link>
                         {/* <a href={project.link} target="_blank" className="btn btn-primary">View Project</a> */}
                         </div>
                     </div>

@@ -1,24 +1,13 @@
 import {useState,useEffect} from "react";
 import axios from "axios";
 import NavBar from "./navbar";
+import { Link } from "react-router-dom";
+import Loader from '../routes/Loader';
 
-const AboutUser = () => {
-    //get the user data from api
-    const [userData, setUserData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        axios.get('http://localhost:8080/auth/userInfo',{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}}).then(res => {
-            setUserData(res.data);
-            setIsLoading(false);
-        }).catch(err => {
-            setError(err);
-            setIsLoading(false);
-        });
-     
-    }, []);
-
+const AboutUser = (props) => {
+    const userData=props.location.state.userData;
+    console.log(userData);
+  
     //display the user data with css card style
     return (
         <>
@@ -41,8 +30,31 @@ const AboutUser = () => {
                                     <div className="col-md-6">
                                         <p>Bug count: {userData.userBugsReported}</p>
                                         <p>User rating: {userData.userRating}/5</p>
-                                        <p>Projects added: {userData.projects}</p>
-                                        <p>Issues added: {userData.issues}</p>
+                                        <p>Projects added:</p>
+                                       {/* card style to display each individual project */}
+                                        {userData.projects.map(project => (
+                                            <div className="card" key={project.projectId}>
+                                                <div className="card-body">
+                                                    <Link to={`/projects/${project.projectId}`}>{project.projectTitle}</Link>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <p>Issues added:</p>
+                                         {/* card style unordered list to display the issues */}
+                                        <ul>
+                                            {userData.issues.map(issue => (
+                                                <div className="card" key={issue.issueId}>
+                                                <div className="card-body">
+                                                    <p>{issue.issueTitle}</p>
+                                                    <p>{issue.issueDesc}</p>
+                                                    <p>{issue.issueFiles}</p>
+
+                                                </div>
+                                            </div>
+                                            ))}
+                                        </ul>
+
+                                        
                                         <p>Solutions added: {userData.solutions}</p>
 
                                     </div>

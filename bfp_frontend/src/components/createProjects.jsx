@@ -3,34 +3,27 @@ import {useHistory,useParams} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
 
-
-
-// create project which has a form to take 4 inputs
-// 1. projectTitle
-// 2. projectDesc
-// 3. projectFiles
-// 4. projectDownloadNo
-
 const CreateProject = () => {
     const [projectTitle, setTitle] = useState('');
     const [projectDesc, setDesc] = useState('');
     const [projectFiles, setFiles] = useState('');
-    const [projectDownloadNo, setDownloadsCount] = useState(0);
+    const projectDownloadNo = 0;
+    const [userId, setUserId] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const history = useHistory();
     const id = useParams();
-    const [createOrEdit, setCreateOrEdit] = useState('Create');
+    const [createOrEdit, setCreateOrEdit] = useState('Create Project');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        if (id.id!=="add") {
+        if (id.id!=="add" && id.id[id.id.length - 1]!=="i" && id.id[0]!=="s") {
             setLoading(true);
             axios.get(`http://localhost:8080/projects/${id.id}`,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     if (res.data!=="")
                     {
-                        setCreateOrEdit("Edit");
+                        setCreateOrEdit("Edit Project");
                         setLoading(false);
                     }
                     else {
@@ -41,14 +34,19 @@ const CreateProject = () => {
                     setTitle(res.data.projectTitle);
                     setDesc(res.data.projectDesc);
                     setFiles(res.data.projectFiles);
-                    setDownloadsCount(res.data.projectDownloadNo);
+                    // setDownloadsCount(res.data.projectDownloadNo);
                 })
                 .catch(err => console.log(err));
         }
+        else if(id.id[id.id.length - 1]   === 'i'){
+            setCreateOrEdit("Add Issue for Project "+id.id.substring(0,id.id.length-1));
+        }  
+    
         
     }, []);
 
     const handleSubmit = (e) => {
+  
         e.preventDefault();
         const data = {
             projectTitle,
@@ -56,7 +54,33 @@ const CreateProject = () => {
             projectFiles,
             projectDownloadNo
         };
-        if (id.id!=="add") {
+        const token = localStorage.getItem('token');
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace('-', '+').replace('_', '/');
+        const decodedToken = JSON.parse(window.atob(base64));
+        data['userId'] = decodedToken.sub;
+        if(id.id[id.id.length - 1]   === 'i') 
+        {
+            axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+                .then(res => {
+                    setSuccess("Issue added successfully!");
+                })
+                .catch(err => {
+                    setError('Something went wrong');
+                });
+        }
+        // else if (id.id[0]   === 's') 
+        // {
+
+        //     // axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues/${id.id.substring(0,id.id.length-1)}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+        //     //     .then(res => {
+        //     //         setSuccess("Solution added successfully!");
+        //     //     })
+        //     //     .catch(err => {
+        //     //         setError('Something went wrong');
+        //     //     });
+        // }
+        else if (id.id!=="add") {
             axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Project Details successfully updated!");
@@ -65,6 +89,7 @@ const CreateProject = () => {
                     setError('Something went wrong');
                 });
         } else {
+       
         axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')} })
             .then(res => {
                 console.log(res);
@@ -88,7 +113,7 @@ const CreateProject = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
-                        <h1 className="text-center">{createOrEdit} Project</h1>
+                        <h1 className="text-center">{createOrEdit}</h1>
                         <hr></hr>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -96,7 +121,7 @@ const CreateProject = () => {
                                 <input type="text" className="form-control" id="projectTitle"
                                        value={projectTitle}
                                        onChange={(e) => setTitle(e.target.value)}
-                                       placeholder="Enter projectTitle"/>
+                                       placeholder="Enter Title"/>
                             </div>
                             <br></br>
                             <div className="form-group">
@@ -112,17 +137,17 @@ const CreateProject = () => {
                                 <input type="text" className="form-control" id="projectFiles"
                                         value={projectFiles}
                                         onChange={(e) => setFiles(e.target.value)}
-                                        placeholder="Enter projectFiles"/>
+                                        placeholder="Add Files"/>
                             </div>
                             <br></br>
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label htmlFor="projectDownloadNo">Downloads Count</label>
                                 <input type="text" className="form-control" id="projectDownloadNo"
                                         value={projectDownloadNo}
                                         onChange={(e) => setDownloadsCount(e.target.value)}
                                         placeholder="Enter downloads count"/>
                             </div>
-                            <br></br>
+                            <br></br> */}
                             <button type="submit" className="btn btn-success">Submit</button>
                         </form>
                         {error && <div className="alert alert-danger">{error}</div>}
