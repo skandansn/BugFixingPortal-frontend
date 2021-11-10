@@ -13,7 +13,7 @@ const ViewSolutions = () => {
   const [loading, setLoading] = useState(true);
   const {id, id2} = useParams()
   useEffect(() => {
-    axios.get(`http://localhost:8080/projects/${id.id}/issues/${id2.id}solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
+    axios.get(`http://localhost:8080/projects/${id}/issues/${id2}/solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
     .then(res => {
         setSolutions(res.data);
         setLoading(false);

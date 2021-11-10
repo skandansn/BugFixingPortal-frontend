@@ -73,7 +73,7 @@ const CreateProject = () => {
         }
         else if (id.id[0]==='s')
         {
-            axios.post(`http://localhost:8080/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+            axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Solution added successfully!");
                 })

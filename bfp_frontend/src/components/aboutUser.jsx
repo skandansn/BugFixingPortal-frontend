@@ -46,8 +46,6 @@ const AboutUser = (props) => {
                                                 <div className="card" key={issue.issueId}>
                                                 <div className="card-body">
                                                     <p>{issue.issueTitle}</p>
-                                                    <p>{issue.issueDesc}</p>
-                                                    <p>{issue.issueFiles}</p>
 
                                                 </div>
                                             </div>
@@ -55,7 +53,17 @@ const AboutUser = (props) => {
                                         </ul>
 
                                         
-                                        <p>Solutions added: {userData.solutions}</p>
+                                        <p>Solutions added:</p>
+                                        <ul>
+                                            {userData.solutions.map(solution => (
+                                                <div className="card" key={solution.solutionId}>
+                                                <div className="card-body">
+                                                    <p>{solution.solutionTitle}</p>
+                                                    <p>{solution.solutionUser_fid}</p>
+                                                </div>
+                                            </div>
+                                            ))}
+                                        </ul>
 
                                     </div>
                                 </div>
