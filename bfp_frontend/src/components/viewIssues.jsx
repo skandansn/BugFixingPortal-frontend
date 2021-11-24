@@ -57,7 +57,7 @@ const ViewIssues = () => {
                               <td>{issue.issueDesc}</td>
                               <td>{issue.issueFiles}</td>
                               <td>{issue.assignedTo}</td>
-                              <td>{issue.createdBy}</td>
+                              <td>{issue.user.userHandle}</td>
                                 <td>
                                 <Link to={`/createProject/s${issue.issueId}p${id.id}`}>
                                         <button className="btn btn-warning mr-10">Give Solution</button>

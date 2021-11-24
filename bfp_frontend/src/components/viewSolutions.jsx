@@ -16,6 +16,7 @@ const ViewSolutions = () => {
     axios.get(`http://localhost:8080/projects/${id}/issues/${id2}/solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
     .then(res => {
         setSolutions(res.data);
+        console.log(solutions);
         setLoading(false);
     })
     .catch(err => {
@@ -47,7 +48,7 @@ const ViewSolutions = () => {
                               <td>{solution.solutionDesc}</td>
                               <td>{solution.solutionFiles}</td>
                               <td>{solution.assignedTo}</td>
-                              <td>{solution.createdBy}</td>
+                              <td>{solution.user.userHandle}</td>
                           </tr>
                       );
                   })}
