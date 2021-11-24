@@ -48,17 +48,23 @@ const ViewProject = () => {
                     <SideNavbar />
                     <div className="grid-chid-b bg-danger" id="desc-container">
                         <div>
-                        <h1>{project.projectId} | {project.projectTitle}</h1>
+                        <div style={{display:"inline"}}>
+                        <h1 >{project.projectId} | {project.projectTitle}</h1>
+                        </div>
+                        <div>
+                        <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
+                        <button className="btn btn-dark" onClick={deleteProject} > Delete Project</button>
+                        </div>
                     <hr></hr>
                     <p>Description: {project.projectDesc}</p>
                     <p>Files: {project.projectFiles}</p>
                     <p>Download Count: {project.projectDownloadNo}</p>
-                    <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
+                    {/* <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link> */}
                     <Link to={`/createProject/${project.projectId}i`} className="btn btn-warning">Add Issues</Link>
                     <Link to={`/projects/${project.projectId}/issues`} className="btn btn-secondary">View Issues</Link>
                     <br></br>
                     <br></br>
-                    <button className="btn btn-danger" onClick={deleteProject} > Delete Project</button>
+                    {/* <button className="btn btn-danger" onClick={deleteProject} > Delete Project</button> */}
 
                         </div>
                     </div>

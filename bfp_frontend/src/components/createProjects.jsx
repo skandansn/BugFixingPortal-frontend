@@ -66,6 +66,8 @@ const CreateProject = () => {
             axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Issue added successfully!");
+                    history.goBack();
+
                 })
                 .catch(err => {
                     setError('Something went wrong');

@@ -6,7 +6,7 @@ import SideNavbar from "./sidenavbar";
 
 const ViewIssues = () => {
     const [issues, setIssues] = useState([]);
-    const [project, setProject] = useState({});
+    // const [project, setProject] = useState({});
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
     const id = useParams()
@@ -34,7 +34,7 @@ const ViewIssues = () => {
                         <SideNavbar />
                         <div className="grid-chid-b bg-danger " id="desc-container">
                             <div>
-                            <Link to={`/createProject/${project.projectId}i`} className="btn btn-success">Add Issues</Link>
+                            <Link to={`/createProject/${id.id}i`} className="btn btn-success">Add Issues</Link>
                             <table className="table table-striped bg-light mar-top">
               <thead>
                   <tr>
