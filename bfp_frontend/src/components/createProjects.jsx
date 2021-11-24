@@ -2,6 +2,8 @@ import {useEffect, useState} from "react";
 import {useHistory,useParams} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
+import { storage } from "../services/firebase";
+import { ref,uploadBytes,getDownloadURL   } from "firebase/storage";
 
 const CreateProject = () => {
     const [projectTitle, setTitle] = useState('');
@@ -15,6 +17,14 @@ const CreateProject = () => {
     const id = useParams();
     const [createOrEdit, setCreateOrEdit] = useState('Create Project');
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState('')
+    const [fileAsUrl, setFileAsUrl] = useState('')
+
+
+    const handleFile = (e) => {
+        setFile(e.target.files[0])
+    }
+
 
     useEffect(() => {
         if (id.id!=="add" && id.id[id.id.length - 1]!=="i" && id.id[0]!=="s") {
@@ -53,7 +63,6 @@ const CreateProject = () => {
         const data = {
             projectTitle,
             projectDesc,
-            projectFiles,
             projectDownloadNo
         };
         const token = localStorage.getItem('token');
@@ -61,6 +70,16 @@ const CreateProject = () => {
         const base64 = base64Url.replace('-', '+').replace('_', '/');
         const decodedToken = JSON.parse(window.atob(base64));
         data['userId'] = decodedToken.sub;
+        const storageRef = ref(storage, 'files/' +  projectTitle+projectDesc);
+
+        // // 'file' comes from the Blob or File API
+        uploadBytes(storageRef, file).then((snapshot) => {
+          
+          setFileAsUrl(getDownloadURL(ref(storage, 'files/' +  projectTitle+projectDesc)).then((url) => {
+            setFileAsUrl(url);
+          }));
+        });
+        data["projectFiles"]=fileAsUrl;
         if(id.id[id.id.length - 1]   === 'i') 
         {
             axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
@@ -146,13 +165,20 @@ const CreateProject = () => {
                                             placeholder="Enter description"/>
                             </div>
                             <br></br>
-                            <div className="form-group">
+                            {/* <div className="form-group">
                                 <label htmlFor="projectFiles">Files</label>
                                 <input type="text" className="form-control" id="projectFiles"
                                         value={projectFiles}
                                         onChange={(e) => setFiles(e.target.value)}
                                         placeholder="Add Files"/>
+                            </div> */}
+                             <div className="form-group">
+                                <label htmlFor="projectFiles">Files</label>
+                                <input type="text" className="form-control" id="projectFiles"
+                                       type="file"  onChange={handleFile}
+                                        placeholder="Add Files"/>
                             </div>
+                            
                             <br></br>
                             {/* <div className="form-group">
                                 <label htmlFor="projectDownloadNo">Downloads Count</label>

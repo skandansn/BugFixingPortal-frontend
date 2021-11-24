@@ -2,19 +2,42 @@ import { Link,useHistory } from "react-router-dom";
 import { BsTools, BsBugFill, BsColumns } from "react-icons/bs";
 import axios from 'axios';
 import { useState } from 'react';
-
+import { storage } from "../services/firebase";
+import { ref,uploadBytes,getDownloadURL   } from "firebase/storage";
 
 const Register = () => {
     const history = useHistory();
     const API_BASE_URL="http://localhost:8080/";
     const [inputs, setInputs] = useState({});
     const [error, setError] = useState({});
+    const [imageAsFile, setImageAsFile] = useState('')
+    const [imageAsUrl, setImageAsUrl] = useState('')
 
+
+    const handleImageAsFile = (e) => {
+        const image = e.target.files[0]
+        setImageAsFile(imageFile => (image))
+    }
+
+ 
+  
     const handleSubmit = (event) => {
         event.preventDefault();
         inputs["userRating"] = 0;
         inputs["userBugsReported"]=0;
-        console.log(inputs);
+        // console.log(inputs);
+        const storageRef = ref(storage, 'images/' + inputs["userEmail"]);
+
+        // // 'file' comes from the Blob or File API
+        uploadBytes(storageRef, imageAsFile).then((snapshot) => {
+          
+          setImageAsUrl(getDownloadURL(ref(storage, 'images/' + inputs["userEmail"])).then((url) => {
+            setImageAsUrl(url);
+          }));
+        });
+        inputs["userPic"]=imageAsUrl;
+        
+
 
         axios.post(API_BASE_URL+"auth/register",inputs)
         .then(res => {
@@ -77,9 +100,15 @@ const Register = () => {
                                             <input className="form-control" name="userBio"  type="text" value={inputs.userBio || ""} onChange={handleChange}  />
                                                 <label >Information about you</label>
                                             </div>
-                                            <div className="col-md-6">
+                                            {/* <div className="col-md-6">
                                                     <div className="form-floating mb-3 mb-md-0">
                                                         <input className="form-control"   name="userPic"  type="text" value={inputs.userPic || ""} onChange={handleChange}  />
+                                                        <label >User Picture </label>
+                                                    </div>
+                                                </div> */}
+                                                <div className="col-md-6">
+                                                    <div className="form-floating mb-3 mb-md-0">
+                                                        <input className="form-control"  name="userPic"  type="file"  onChange={handleImageAsFile}  />
                                                         <label >User Picture </label>
                                                     </div>
                                                 </div>
