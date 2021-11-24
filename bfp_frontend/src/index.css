@@ -4,7 +4,6 @@
   margin: 0;
   font-family: "Quicksand";
   
-
 }
 /* .navbar {
   padding: 20px;
@@ -225,6 +224,7 @@ Folder Hierarchy
 }
 .home{
   margin: 10px 10px 10px 20px;
+  
 }
 #layoutAuthentication {
   display: flex;
@@ -237,4 +237,8 @@ Folder Hierarchy
 }
 #layoutAuthentication #layoutAuthentication_footer {
   min-width: 0;
+}
+.mar-top{
+  margin-top: 15px;
+  /* color: #f1356d; */
 }

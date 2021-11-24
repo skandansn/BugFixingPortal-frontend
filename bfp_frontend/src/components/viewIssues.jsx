@@ -2,17 +2,24 @@ import {useState,useEffect} from "react";
 import {useHistory, useParams,Link} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
+import SideNavbar from "./sidenavbar";
 
 const ViewIssues = () => {
     const [issues, setIssues] = useState([]);
+    const [project, setProject] = useState({});
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
     const id = useParams()
+    // const [isLoading, setLoading] = useState(true);
+    // const history = useHistory();
+    // const id = useParams()
     useEffect(() => {
         axios.get(`http://localhost:8080/projects/${id.id}/issues`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setIssues(res.data);
             setLoading(false);
+            // setProject(res.data);
+            // setLoading(false);
         })
         .catch(err => {
             console.log(err);
@@ -20,9 +27,15 @@ const ViewIssues = () => {
     }, []);
 
   return (
-    <>
-    <NavBar />
-          <table className="table table-striped">
+    <div>
+        <NavBar />
+        <div className="desc-page container-fluid px-4 mar-top">
+                    <div className="grid-container-desc ">
+                        <SideNavbar />
+                        <div className="grid-chid-b bg-danger " id="desc-container">
+                            <div>
+                            <Link to={`/createProject/${project.projectId}i`} className="btn btn-success">Add Issues</Link>
+                            <table className="table table-striped bg-light mar-top">
               <thead>
                   <tr>
                       <th scope="col">#</th>
@@ -47,17 +60,24 @@ const ViewIssues = () => {
                               <td>{issue.createdBy}</td>
                                 <td>
                                 <Link to={`/createProject/s${issue.issueId}p${id.id}`}>
-                                        <button className="btn btn-secondary">Give Solution</button>
+                                        <button className="btn btn-warning mr-10">Give Solution</button>
                                     </Link>
                                     <Link to={`/projects/${id.id}/issues/${issue.issueId}/solutions`}>
-                                        <button className="btn btn-primary">View Solutions</button>
+                                        <button className="btn btn-warning">View Solutions</button>
                                     </Link>
                                 </td>
                           </tr>
                       );
                   })}
               </tbody>
-          </table></>
+          </table>
+                            </div>
+                        </div>
+                    </div>
+          
+        </div>
+          
+    </div>
 
 
   );

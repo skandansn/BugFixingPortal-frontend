@@ -2,9 +2,13 @@ import NavBar from "./navbar";
 import axios from 'axios';
 import {useState,useEffect} from "react";
 import { Link } from "react-router-dom";
+import * as React from 'react';
+// import OpenIconSpeedDial from "./floatingbutton";
+
 
 // Home component to get list of all the projects and display them
 const Home = () => {
+    
     const [projects, setProjects] = useState([]);
     const [Searchprojects, setSearchProjects] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -68,13 +72,14 @@ const Home = () => {
     return (
         <div className="bg">
         <NavBar />
+        {/* <OpenIconSpeedDial></OpenIconSpeedDial> */}
         <div className="container">
             <div className="row">
             <div className="col-md-12">
-                <h1>Project Dashboard</h1>
+                <h1 className="mar-top">Project Dashboard</h1>
                 {/* search bar to filter the projects  */}
-                <input type="text" className="form-control" placeholder="Search Projects" onChange={(e) => handleSearch(e)} />
-                <Link to="/createProject/add" className="btn btn-lg btn-success">Add Project</Link>
+                <input type="text" className="form-control mar-top" style={{width:'30%'}} placeholder="Search Projects" onChange={(e) => handleSearch(e)} />
+                <Link to="/createProject/add" className="btn btn-lg btn-success mar-top" >Create New Project</Link>
             </div>
             </div>
             <hr></hr>
@@ -90,7 +95,7 @@ const Home = () => {
                     <div className="card bg-secondary text-light">
                         <div className="card-body">
                         <h5 className="card-title"><b>ProjectID: {project.projectId}</b> | {project.projectTitle}</h5>
-                        <Link to={{pathname:`/projects/${project.projectId}`}} className="btn btn-danger">View Project</Link>
+                        <Link to={{pathname:`/projects/${project.projectId}`}} className="btn btn-danger mar-top">View Project</Link>
                         {/* <a href={project.link} target="_blank" className="btn btn-primary">View Project</a> */}
                         </div>
                     </div>
