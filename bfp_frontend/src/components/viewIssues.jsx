@@ -56,7 +56,9 @@ const ViewIssues = () => {
                               <th scope="row">{index + 1}</th>
                               <td>{issue.issueTitle}</td>
                               <td>{issue.issueDesc}</td>
-                              <td>{issue.issueFiles}</td>
+                              <td>
+                                  <button className="btn-success btn-sm text.light"><a href={issue.issueFiles}>go</a></button>
+                                  </td>
                               <td>{issue.user.userHandle}</td>
                                 <td>
                                 <Link to={`/createProject/s${issue.issueId}p${id.id}`}>

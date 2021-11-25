@@ -33,7 +33,7 @@ const ViewProject = () => {
             const base64 = base64Url.replace('-', '+').replace('_', '/');
             const decodedToken = JSON.parse(window.atob(base64));
             if(decodedToken.sub == res.data.user.userEmail){
-                setButtons(<div><Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link><button onClick={deleteProject} className="btn btn-dark">Delete Project</button></div>)
+                setButtons(<div><Link to={`/createProject/${id.id}`} className="btn btn-success">Edit Project</Link><button onClick={deleteProject} className="btn btn-dark">Delete Project</button></div>)
         
             } else{
                 setButtons(null)
