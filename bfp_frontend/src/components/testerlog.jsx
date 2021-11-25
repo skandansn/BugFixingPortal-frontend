@@ -2,30 +2,28 @@ import {useState,useEffect} from "react";
 import {useHistory, useParams,Link} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
+import Loader from "../routes/Loader";
 import SideNavbar from "./sidenavbar";
 
-const ViewIssues = () => {
-    const [issues, setIssues] = useState([]);
-    // const [project, setProject] = useState({});
-    const [isLoading, setLoading] = useState(true);
-    const history = useHistory();
-    const id = useParams()
-    // const [isLoading, setLoading] = useState(true);
-    // const history = useHistory();
-    // const id = useParams()
-    useEffect(() => {
-        axios.get(`http://localhost:8080/projects/${id.id}/issues`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
-        .then(res => {
-            setIssues(res.data);
-            console.log(res.data);
-            setLoading(false);
-            // setProject(res.data);
-            // setLoading(false);
-        })
-        .catch(err => {
-            console.log(err);
-        });
-    }, []);
+
+//card component to get solutions from api and display them
+
+const ViewSolutions = () => {
+  const [solutions, setSolutions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const {id, id2} = useParams()
+  const history = useHistory();
+  useEffect(() => {
+    axios.get(`http://localhost:8080/projects/${id}/issues/${id2}/solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
+    .then(res => {
+        setSolutions(res.data);
+        console.log(solutions);
+        setLoading(false);
+    })
+    .catch(err => {
+        console.log(err);
+    });
+  }, []);
 
   return (
     <div>
@@ -35,7 +33,7 @@ const ViewIssues = () => {
                         <SideNavbar />
                         <div className="grid-chid-b bg-danger " id="desc-container">
                             <div>
-                            <Link to={`/createProject/${id.id}i`} className="btn btn-success">Add Issues</Link>
+                            <Link to={`/createProject/s${id2}p${id}`} className="btn btn-success">Add Solution</Link>
                             <table className="table table-striped bg-light mar-top">
               <thead>
                   <tr>
@@ -44,30 +42,21 @@ const ViewIssues = () => {
                       <th scope="col">Description</th>
                       <th scope="col">Files</th>
                       <th scope="col">Created By</th>
-                      <th scope="col">Solutions</th>
 
                   </tr>
               </thead>
               <tbody>
                   {/* map through issues and display them */}
-                  {issues.map((issue, index) => {
+                  {solutions.map((solution, index) => {
                       return (
                           <tr key={index}>
                               <th scope="row">{index + 1}</th>
-                              <td>{issue.issueTitle}</td>
-                              <td>{issue.issueDesc}</td>
+                              <td>{solution.solutionTitle}</td>
+                              <td>{solution.solutionDesc}</td>
                               <td>
-                                  <button className="btn-warning btn-sm"><a href={issue.issueFiles} style={{"text-decoration": "none","color":"black"}}>View File</a></button>
+                                  <button className="btn-warning btn-sm"><a href={solution.solutionFiles} style={{"text-decoration": "none","color":"black"}}>View File</a></button>
                                   </td>
-                              <td>{issue.user.userHandle}</td>
-                                <td>
-                                <Link to={`/createProject/s${issue.issueId}p${id.id}`}>
-                                        <button className="btn btn-warning mr-10">Give Solution</button>
-                                    </Link>
-                                    <Link to={`/projects/${id.id}/issues/${issue.issueId}/solutions`}>
-                                        <button className="btn btn-warning">View Solutions</button>
-                                    </Link>
-                                </td>
+                              <td>{solution.user.userHandle}</td>
                           </tr>
                       );
                   })}
@@ -84,4 +73,4 @@ const ViewIssues = () => {
 
   );
 };
-export default ViewIssues;
+export default ViewSolutions;

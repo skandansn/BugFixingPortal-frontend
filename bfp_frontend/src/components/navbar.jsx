@@ -23,7 +23,6 @@ const NavBar = () => {
     useEffect(() => {
         axios.get('http://localhost:8080/auth/userInfo',{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}}).then(res => {
             setUserData(res.data);
-            // console.log(res.data);
             setIsLoading(false);
         }).catch(err => {
             setError(err);
@@ -38,7 +37,7 @@ const NavBar = () => {
             <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             </form>
             <DropdownButton id="dropdown-basic-button" title={<BsPersonFill/>} size="lg" className="mr-10"  variant="danger">
-            <Dropdown.Item as={Link} to={{pathname:"/aboutUser",state:{userData} }}>{name}</Dropdown.Item>
+            <Dropdown.Item as={Link} to={{pathname:"/aboutUser",state:{userData} }}>{userData.userHandle}</Dropdown.Item>
                 <hr />
                 <Dropdown.Item onClick={logout} href="/login">Logout</Dropdown.Item>
             </DropdownButton>
