@@ -3,7 +3,7 @@ import {useHistory, useParams,Link} from "react-router-dom";
 import NavBar from "./navbar";
 import axios from 'axios';
 import Loader from "../routes/Loader";
-
+import SideNavbar from "./sidenavbar";
 
 
 //card component to get solutions from api and display them
@@ -12,6 +12,7 @@ const ViewSolutions = () => {
   const [solutions, setSolutions] = useState([]);
   const [loading, setLoading] = useState(true);
   const {id, id2} = useParams()
+  const history = useHistory();
   useEffect(() => {
     axios.get(`http://localhost:8080/projects/${id}/issues/${id2}/solutions`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
     .then(res => {
@@ -25,9 +26,16 @@ const ViewSolutions = () => {
   }, []);
 
   return (
-    <>
+    <div>
     <NavBar />
-          <table className="table table-striped">
+    <div className="desc-page container-fluid px-4 mar-top">
+                <div className="grid-container-desc ">
+                    <SideNavbar />
+                    <div className="grid-chid-b bg-danger " id="desc-container">
+                        <div>
+                        <button className="btn btn-success" onClick={() => history.goBack()}>Go Back</button>
+                        {/* <Link to={`/createProject/${id.id}i`} className="btn btn-success">Add Issues</Link> */}
+                        <table className="table table-striped bg-light mar-top">
               <thead>
                   <tr>
                       <th scope="col">#</th>
@@ -53,7 +61,11 @@ const ViewSolutions = () => {
                       );
                   })}
               </tbody>
-          </table></>
+          </table>
+                        </div>
+                            </div>
+                            </div>
+          </div></div>
 
 
   );
