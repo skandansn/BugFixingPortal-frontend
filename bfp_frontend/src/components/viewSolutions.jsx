@@ -27,15 +27,14 @@ const ViewSolutions = () => {
 
   return (
     <div>
-    <NavBar />
-    <div className="desc-page container-fluid px-4 mar-top">
-                <div className="grid-container-desc ">
-                    <SideNavbar />
-                    <div className="grid-chid-b bg-danger " id="desc-container">
-                        <div>
-                        <button className="btn btn-success" onClick={() => history.goBack()}>Go Back</button>
-                        {/* <Link to={`/createProject/${id.id}i`} className="btn btn-success">Add Issues</Link> */}
-                        <table className="table table-striped bg-light mar-top">
+        <NavBar />
+        <div className="desc-page container-fluid px-4 mar-top">
+                    <div className="grid-container-desc ">
+                        <SideNavbar />
+                        <div className="grid-chid-b bg-danger " id="desc-container">
+                            <div>
+                            <Link to={`/createProject/s${id2}p${id}`} className="btn btn-success">Add Solution</Link>
+                            <table className="table table-striped bg-light mar-top">
               <thead>
                   <tr>
                       <th scope="col">#</th>
@@ -47,25 +46,29 @@ const ViewSolutions = () => {
                   </tr>
               </thead>
               <tbody>
-                  {/* map through solutions and display them */}
+                  {/* map through issues and display them */}
                   {solutions.map((solution, index) => {
                       return (
                           <tr key={index}>
                               <th scope="row">{index + 1}</th>
                               <td>{solution.solutionTitle}</td>
                               <td>{solution.solutionDesc}</td>
-                              <td>{solution.solutionFiles}</td>
-                              <td>{solution.assignedTo}</td>
+                              <td>
+                                  <button className="btn-warning btn-sm"><a href={solution.solutionFiles} style={{"text-decoration": "none","color":"black"}}>View File</a></button>
+                                  </td>
                               <td>{solution.user.userHandle}</td>
                           </tr>
                       );
                   })}
               </tbody>
           </table>
+                            </div>
                         </div>
-                            </div>
-                            </div>
-          </div></div>
+                    </div>
+          
+        </div>
+          
+    </div>
 
 
   );

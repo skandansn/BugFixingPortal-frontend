@@ -34,7 +34,7 @@ const SideNavbar = () => {
               <li><Link className="navilist text-dark" to={`/projects/${project.projectId}/code`}>{<BsFileCode/>}  Code</Link></li>
               {/* <Link to={`/projects/${project.projectId}/issues`} className="btn btn-secondary">View Issues</Link> */}
               <li><Link className="navilist text-dark" to={`/projects/${project.projectId}/issues`}>{<BsFlag/>}  Issues</Link></li>
-              <li><Link className="navilist text-dark" to='/description'>{<BsFileEarmarkSpreadsheet/>}  Tester Log</Link></li>
+              <li><Link className="navilist text-dark" to={`/projects/${project.projectId}/testerlog`}>{<BsFileEarmarkSpreadsheet/>}  Tester Log</Link></li>
             </ul>
         </div>
       );
