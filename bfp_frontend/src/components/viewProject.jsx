@@ -10,7 +10,7 @@ const ViewProject = () => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
     const id = useParams()
-
+    console.log(project.user);
 
     //delete project
     const deleteProject = () => {
@@ -36,6 +36,18 @@ const ViewProject = () => {
         });
     }, []);
 
+    // const token = localStorage.getItem('token');
+    // const base64Url = token.split('.')[1];
+    // const base64 = base64Url.replace('-', '+').replace('_', '/');
+    // const decodedToken = JSON.parse(window.atob(base64));
+    // var button;
+    // if(decodedToken.sub == projuserID){
+    //    button =  <button className="btn btn-dark" onClick={deleteProject} > Delete Project</button>;
+    // } else{
+    //     button = <div></div>;
+    // }
+
+
     return (
         <div>
             <NavBar/>
@@ -53,7 +65,7 @@ const ViewProject = () => {
                         </div>
                         <div>
                         <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
-                        <button className="btn btn-dark" onClick={deleteProject} > Delete Project</button>
+                        {/* {button} */}
                         </div>
                     <hr></hr>
                     <p>Description: {project.projectDesc}</p>
