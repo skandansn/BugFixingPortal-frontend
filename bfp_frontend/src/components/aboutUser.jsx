@@ -45,7 +45,7 @@ const AboutUser = (props) => {
                                             {userData.issues.map(issue => (
                                                 <div className="card" key={issue.issueId}>
                                                 <div className="card-body">
-                                                    <p>{issue.issueTitle}</p>
+                                                <Link to={`/projects/${issue.project.projectId}/issues/${issue.issueId}/solutions`}>{issue.issueTitle}</Link>
 
                                                 </div>
                                             </div>
@@ -59,7 +59,6 @@ const AboutUser = (props) => {
                                                 <div className="card" key={solution.solutionId}>
                                                 <div className="card-body">
                                                     <p>{solution.solutionTitle}</p>
-                                                    <p>{solution.solutionUser_fid}</p>
                                                 </div>
                                             </div>
                                             ))}
