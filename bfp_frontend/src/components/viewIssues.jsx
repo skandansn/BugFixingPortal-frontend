@@ -17,6 +17,7 @@ const ViewIssues = () => {
         axios.get(`http://localhost:8080/projects/${id.id}/issues`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setIssues(res.data);
+            console.log(res.data);
             setLoading(false);
             // setProject(res.data);
             // setLoading(false);
@@ -56,7 +57,6 @@ const ViewIssues = () => {
                               <td>{issue.issueTitle}</td>
                               <td>{issue.issueDesc}</td>
                               <td>{issue.issueFiles}</td>
-                              <td>{issue.assignedTo}</td>
                               <td>{issue.user.userHandle}</td>
                                 <td>
                                 <Link to={`/createProject/s${issue.issueId}p${id.id}`}>

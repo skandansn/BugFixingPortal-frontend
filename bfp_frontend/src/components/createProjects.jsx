@@ -77,13 +77,14 @@ const CreateProject = () => {
           
           setFileAsUrl(getDownloadURL(ref(storage, 'files/' +  projectTitle+projectDesc)).then((url) => {
             setFileAsUrl(url);
-          }));
-        });
-        data["projectFiles"]=fileAsUrl;
-        if(id.id[id.id.length - 1]   === 'i') 
+            data["projectFiles"]=url;
+            // console.log(data)
+            if(id.id[id.id.length - 1]   === 'i') 
         {
-            axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+            // console.log(data)
+            axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
+                    console.log(data)
                     setSuccess("Issue added successfully!");
                     history.goBack();
 
@@ -94,7 +95,7 @@ const CreateProject = () => {
         }
         else if (id.id[0]==='s')
         {
-            axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+            axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Solution added successfully!");
                 })
@@ -102,18 +103,6 @@ const CreateProject = () => {
                     setError('Something went wrong');
                 });
         }
-
-        // else if (id.id[0]   === 's') 
-        // {
-
-        //     // axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues/${id.id.substring(0,id.id.length-1)}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
-        //     //     .then(res => {
-        //     //         setSuccess("Solution added successfully!");
-        //     //     })
-        //     //     .catch(err => {
-        //     //         setError('Something went wrong');
-        //     //     });
-        // }
         else if (id.id!=="add") {
             axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
@@ -132,7 +121,10 @@ const CreateProject = () => {
                 console.log(err);
                 setError('Something went wrong');
             });
-    };
+    }
+          }));
+        });
+        
     }
     return (
         <div>

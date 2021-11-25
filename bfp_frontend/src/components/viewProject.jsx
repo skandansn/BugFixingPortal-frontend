@@ -10,8 +10,7 @@ const ViewProject = () => {
     const [isLoading, setLoading] = useState(true);
     const history = useHistory();
     const id = useParams()
-    console.log(project.user);
-
+    const [buttons, setButtons] = useState(false);
     //delete project
     const deleteProject = () => {
         axios.delete(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
@@ -29,6 +28,19 @@ const ViewProject = () => {
         axios.get(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setProject(res.data);
+            const token = localStorage.getItem('token');
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            const decodedToken = JSON.parse(window.atob(base64));
+            console.log(project.projectId)
+            // if(decodedToken.sub == res.data.user.userEmail){
+            //     console.log(project)
+            //     setButtons(<div><Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link><button onClick={deleteProject} className="btn btn-dark">Delete Project</button></div>)
+        
+            // } else{
+            //     setButtons(null)
+            // }
+
             setLoading(false);
         })
         .catch(err => {
@@ -36,17 +48,7 @@ const ViewProject = () => {
         });
     }, []);
 
-    // const token = localStorage.getItem('token');
-    // const base64Url = token.split('.')[1];
-    // const base64 = base64Url.replace('-', '+').replace('_', '/');
-    // const decodedToken = JSON.parse(window.atob(base64));
-    // var button;
-    // if(decodedToken.sub == projuserID){
-    //    button =  <button className="btn btn-dark" onClick={deleteProject} > Delete Project</button>;
-    // } else{
-    //     button = <div></div>;
-    // }
-
+    
 
     return (
         <div>
@@ -64,8 +66,7 @@ const ViewProject = () => {
                         <h1 >{project.projectId} | {project.projectTitle}</h1>
                         </div>
                         <div>
-                        <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link>
-                        {/* {button} */}
+                        {buttons}
                         </div>
                     <hr></hr>
                     <p>Description: {project.projectDesc}</p>

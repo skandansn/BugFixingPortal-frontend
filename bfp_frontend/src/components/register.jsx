@@ -33,25 +33,27 @@ const Register = () => {
           
           setImageAsUrl(getDownloadURL(ref(storage, 'images/' + inputs["userEmail"])).then((url) => {
             setImageAsUrl(url);
+            inputs["userPic"]=url;
+            axios.post(API_BASE_URL+"auth/register",inputs)
+            .then(res => {
+                if(res.data === "User registered successfully"){
+                    history.push("/login");    
+                }
+                else{
+                    setError(res.data);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setError(err.response.data);
+            });
+        console.log(inputs);
           }));
         });
-        inputs["userPic"]=imageAsUrl;
         
 
 
-        axios.post(API_BASE_URL+"auth/register",inputs)
-        .then(res => {
-            if(res.data === "User registered successfully"){
-                history.push("/login");    
-            }
-            else{
-                setError(res.data);
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            setError(err.response.data);
-        });
+       
     }
 
 
