@@ -4,6 +4,7 @@ import NavBar from "./navbar";
 import axios from 'axios';
 import { storage } from "../services/firebase";
 import { ref,uploadBytes,getDownloadURL   } from "firebase/storage";
+import Loader from "../routes/Loader";
 
 const CreateProject = () => {
     const [projectTitle, setTitle] = useState('');
@@ -27,17 +28,16 @@ const CreateProject = () => {
 
 
     useEffect(() => {
+        setLoading(true);
         if (id.id!=="add" && id.id[id.id.length - 1]!=="i" && id.id[0]!=="s") {
-            setLoading(true);
+            
             axios.get(`http://localhost:8080/projects/${id.id}`,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     if (res.data!=="")
                     {
                         setCreateOrEdit("Edit Project");
-                        setLoading(false);
                     }
                     else {
-                        setLoading(false);
                         history.push('/home');
                     }
 
@@ -45,6 +45,7 @@ const CreateProject = () => {
                     setDesc(res.data.projectDesc);
                     setFiles(res.data.projectFiles);
                     // setDownloadsCount(res.data.projectDownloadNo);
+
                 })
                 .catch(err => console.log(err));
         }
@@ -53,13 +54,16 @@ const CreateProject = () => {
         }  
         else if (id.id[0]==='s'){
             setCreateOrEdit("Add Solution for Issue "+id.id[1]);
+
         }
-        
+        setLoading(false);
+
     }, []);
 
     const handleSubmit = (e) => {
-  
         e.preventDefault();
+        setLoading(true);
+
         const data = {
             projectTitle,
             projectDesc,
@@ -74,7 +78,7 @@ const CreateProject = () => {
 
         // // 'file' comes from the Blob or File API
         uploadBytes(storageRef, file).then((snapshot) => {
-          
+
           setFileAsUrl(getDownloadURL(ref(storage, 'files/' +  projectTitle+projectDesc)).then((url) => {
             setFileAsUrl(url);
             data["projectFiles"]=url;
@@ -86,6 +90,8 @@ const CreateProject = () => {
                 .then(res => {
                     console.log(data)
                     setSuccess("Issue added successfully!");
+                    setLoading(false);  
+
                     history.goBack();
 
                 })
@@ -98,6 +104,8 @@ const CreateProject = () => {
             axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Solution added successfully!");
+                    setLoading(false);  
+
                     history.goBack();
                 })
                 .catch(err => {
@@ -108,6 +116,8 @@ const CreateProject = () => {
             axios.patch(`http://localhost:8080/projects/${id.id}`, data,{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Project Details successfully updated!");
+                    setLoading(false);  
+
                 })
                 .catch(err => {console.log(err)
                     setError('Something went wrong');
@@ -116,6 +126,8 @@ const CreateProject = () => {
         axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')} })
             .then(res => {
                 console.log(res);
+                setLoading(false);  
+
                 history.push('/home');
             })
             .catch(err => {
@@ -125,15 +137,12 @@ const CreateProject = () => {
     }
           }));
         });
-        
     }
     return (
         <div>
             <NavBar/>
             {
-                loading?  <div className="col-md-12">
-                    <h2>Loading...</h2>
-                </div>
+                loading?  <Loader/>
                 :
             
             <div className="container">
@@ -194,6 +203,7 @@ const CreateProject = () => {
             </div>
 }
         </div>
+    
     );
 };
 
