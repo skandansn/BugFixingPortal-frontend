@@ -32,7 +32,7 @@ const NavBar = () => {
     }, []);
     return (
 
-            <nav className='sb-topnav navbar navbar-expand darkcolor'>
+            <nav className='sb-topnav navbar navbar-expand bg-warning'>
             <Link  to="/home" className="navbar-brand ps-3 "><h1 className='text-dark'><b> <BsBugFill /><BsTools /> <BsColumns /> BFP </b></h1></Link>
             <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             </form>

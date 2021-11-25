@@ -70,7 +70,7 @@ const Home = () => {
     // }, []);
     
     return (
-        <div className="bg">
+        <div className="bg darkcolor">
         <NavBar />
         {/* <OpenIconSpeedDial></OpenIconSpeedDial> */}
         <div className="container">
