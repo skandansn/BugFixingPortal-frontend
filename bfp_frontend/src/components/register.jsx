@@ -108,16 +108,16 @@ const Register = () => {
                                                         <label >User Picture </label>
                                                     </div>
                                                 </div> */}
-                                                <div className="col-md-6">
-                                                    <div className="form-floating mb-3 mb-md-0">
+                                                <div>
+                                                    <div className="form-floating">
                                                         <input className="form-control"  name="userPic"  type="file"  onChange={handleImageAsFile}  />
-                                                        <label >User Picture </label>
+                                                        <label className="sm-mar-top" >User Picture </label>
                                                     </div>
                                                 </div>
                                             <div className="row mb-3">
                                                 <div className="col-md-6">
                                                     <div className="form-floating mb-3 mb-md-0">
-                                                        <input className="form-control"  name="userPassword"   type="password"  value={inputs.userPassword || ""} onChange={handleChange} />
+                                                        <input className="form-control mar-top"  name="userPassword"   type="password"  value={inputs.userPassword || ""} onChange={handleChange} />
                                                         <label >Password</label>
                                                     </div>
                                                 </div>
