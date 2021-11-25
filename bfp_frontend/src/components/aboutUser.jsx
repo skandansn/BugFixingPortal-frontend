@@ -13,50 +13,46 @@ const AboutUser = (props) => {
         <>
         <NavBar></NavBar>
         <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="card">
-                        <div className="card-body">
+        <div className="desc-page container-fluid px-4 mar-top">
                             <h5 className="card-title">User Information</h5>
                             <p className="card-text">
-                                <div className="row">
-                                    
-                                    <div className="col-md-6">
-                                        <img src={userData.userPic} className="img-thumbnail" alt="User Image"/>
-                                        <p>User Handle: {userData.userHandle}</p>
-                                        <p>Email: {userData.userEmail}</p>
-                                        <p>About: {userData.userBio}</p>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>Bug count: {userData.userBugsReported}</p>
-                                        <p>User rating: {userData.userRating}/5</p>
-                                        <p>Projects added:</p>
+                            <div className="bg-danger user-div">
+                                         <img src={userData.userPic} className="img-thumbnail" alt="User Image"/>
+                                        <p><b>User Handle: {userData.userHandle}</b> </p>
+                                        <p><b>Email: {userData.userEmail}</b> </p>
+                                        <p><b>About: {userData.userBio}</b> </p>
+                                        <p><b>Bug count: {userData.userBugsReported}</b> </p>
+                                        <p><b>User rating: {userData.userRating}/5</b> </p>
+                                        <hr />
+                                        <p><b>Projects added:</b> </p>
                                        {/* card style to display each individual project */}
+                                       
+                                       <ul>
                                         {userData.projects.map(project => (
-                                            <div className="card" key={project.projectId}>
+                                            <div className="card bg-warning mar-top " key={project.projectId}>
                                                 <div className="card-body">
-                                                    <Link to={`/projects/${project.projectId}`}>{project.projectTitle}</Link>
+                                                    <Link  className="link-dec text-dark" to={`/projects/${project.projectId}`}>{project.projectTitle}</Link>
                                                 </div>
                                             </div>
                                         ))}
-                                        <p>Issues added:</p>
+                                        </ul>
+                                        <hr />
+                                        <p><b>Issues added:</b></p>
                                          {/* card style unordered list to display the issues */}
                                         <ul>
                                             {userData.issues.map(issue => (
-                                                <div className="card" key={issue.issueId}>
+                                                <div className="card  bg-warning mar-top " style={{"width":"50%"}} key={issue.issueId}>
                                                 <div className="card-body">
-                                                <Link to={`/projects/${issue.project.projectId}/issues/${issue.issueId}/solutions`}>{issue.issueTitle}</Link>
-
+                                                <Link className="link-dec text-dark" to={`/projects/${issue.project.projectId}/issues/${issue.issueId}/solutions`}>{issue.issueTitle}</Link>
                                                 </div>
                                             </div>
                                             ))}
                                         </ul>
-
-                                        
-                                        <p>Solutions added:</p>
+                                        <hr />
+                                        <p><b>Solutions added:</b></p>
                                         <ul>
                                             {userData.solutions.map(solution => (
-                                                <div className="card" key={solution.solutionId}>
+                                                <div className="card bg-warning mar-top" key={solution.solutionId}>
                                                 <div className="card-body">
                                                     <p>{solution.solutionTitle}</p>
                                                 </div>
@@ -65,12 +61,8 @@ const AboutUser = (props) => {
                                         </ul>
 
                                     </div>
-                                </div>
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
         </div></>
     );
    

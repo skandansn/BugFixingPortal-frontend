@@ -246,3 +246,11 @@ Folder Hierarchy
   margin-top: -7px;
   /* color: #f1356d; */
 }
+.user-div{
+  padding: 30px;
+  border-radius: 15px;
+}
+
+.darkcolor{
+  background-color: #89B5AF;
+}
