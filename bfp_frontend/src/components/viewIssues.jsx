@@ -57,7 +57,7 @@ const ViewIssues = () => {
                               <td>{issue.issueTitle}</td>
                               <td>{issue.issueDesc}</td>
                               <td>
-                                  <button className="btn-success btn-sm text.light"><a href={issue.issueFiles}>go</a></button>
+                                  <button className="btn-warning btn-sm"><a href={issue.issueFiles} style={{"text-decoration": "none","color":"black"}}>View File</a></button>
                                   </td>
                               <td>{issue.user.userHandle}</td>
                                 <td>
