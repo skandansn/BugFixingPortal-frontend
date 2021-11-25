@@ -31,7 +31,7 @@ const SideNavbar = () => {
                 </h2> */}
         <ul className="navi1 bg-warning" id="sm-sd-nav"> 
               <li><Link className="navilist text-dark" to={{pathname:`/projects/${project.projectId}`}}>{<BsJournalText/>}  Description</Link></li>
-              <li><Link className="navilist text-dark" to='/codePage'>{<BsFileCode/>}  Code</Link></li>
+              <li><Link className="navilist text-dark" to={`/projects/${project.projectId}/code`}>{<BsFileCode/>}  Code</Link></li>
               {/* <Link to={`/projects/${project.projectId}/issues`} className="btn btn-secondary">View Issues</Link> */}
               <li><Link className="navilist text-dark" to={`/projects/${project.projectId}/issues`}>{<BsFlag/>}  Issues</Link></li>
               <li><Link className="navilist text-dark" to='/description'>{<BsFileEarmarkSpreadsheet/>}  Tester Log</Link></li>

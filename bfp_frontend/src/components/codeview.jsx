@@ -66,7 +66,7 @@ const ViewProject = () => {
                         
                     <hr></hr>
                     <p>Description: {project.projectDesc}</p>
-                    {/* <p>Files: {project.projectFiles}</p> */}
+                    <p>Files: {project.projectFiles}</p>
                     <p>Download Count: {project.projectDownloadNo}</p>
                     {/* <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link> */}
                     {/* <Link to={`/createProject/${project.projectId}i`} className="btn btn-warning">Add Issues</Link> */}
