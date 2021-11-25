@@ -97,6 +97,7 @@ const CreateProject = () => {
             axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:projectFiles,userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Solution added successfully!");
+                    history.goBack();
                 })
                 .catch(err => {
                     setError('Something went wrong');
@@ -146,7 +147,8 @@ const CreateProject = () => {
             <div className="container">
                 <div className="row">
                     <div className="col-md-8 offset-md-2">
-                        <h1 className="text-center">{createOrEdit}</h1>
+                   
+                        <h1 className="text-center mar-top">{createOrEdit}</h1>
                         <hr></hr>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -188,8 +190,10 @@ const CreateProject = () => {
                                         placeholder="Enter downloads count"/>
                             </div>
                             <br></br> */}
+                            
                             <button type="submit" className="btn btn-success">Submit</button>
                         </form>
+                        <button className="btn btn-danger mar-top" onClick={() => history.goBack()}>Cancel</button>
                         {error && <div className="alert alert-danger">{error}</div>}
                         {success && <div className="alert alert-success">{success}</div>}
 
