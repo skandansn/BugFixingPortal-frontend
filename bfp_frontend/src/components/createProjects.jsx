@@ -16,6 +16,7 @@ const CreateProject = () => {
     const [success, setSuccess] = useState('');
     const history = useHistory();
     const id = useParams();
+    var flag;
     const [createOrEdit, setCreateOrEdit] = useState('Create Project');
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState('')
@@ -85,7 +86,7 @@ const CreateProject = () => {
             // console.log(data)
             if(id.id[id.id.length - 1]   === 'i') 
         {
-            // console.log(data)
+            
             axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     console.log(data)
@@ -100,8 +101,13 @@ const CreateProject = () => {
                 });
         }
         else if (id.id[0]==='s')
-        {
-            axios.post(`http://localhost:8080/projects/${id.id[3]}/issues/${id.id[1]}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
+        {   for (let i = 0; i < id.id.length; i++) {
+            if (id.id[i]==='p')
+            {
+                flag = i;
+            }
+        }
+            axios.post(`http://localhost:8080/projects/${id.id.substring(flag+1,id.id.length)}/issues/${id.id.substring(1,flag)}/solutions`, {solutionTitle:projectTitle,solutionDesc:projectDesc,solutionFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
                     setSuccess("Solution added successfully!");
                     setLoading(false);  

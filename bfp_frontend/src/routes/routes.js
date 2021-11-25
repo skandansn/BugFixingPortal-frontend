@@ -28,6 +28,11 @@ const routes = [
     exact: true
   },
   {
+    path: '/projects/:id/testerlog',
+    component: lazy(() => import('../components/testerlog')),
+    exact: true
+  },
+  {
     path: '/projects/:id/issues/:id2/solutions',
     component: lazy(() => import('../components/viewSolutions')),
     exact: true
