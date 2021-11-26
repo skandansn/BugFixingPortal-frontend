@@ -89,7 +89,6 @@ const CreateProject = () => {
             
             axios.post(`http://localhost:8080/projects/${id.id.substring(0,id.id.length-1)}/issues`, {issueTitle:projectTitle,issueDesc:projectDesc,issueFiles:data["projectFiles"],userId:decodedToken.sub},{ headers: { 'Accept': 'application/json','Authorization': 'Bearer ' + localStorage.getItem('token') }})
                 .then(res => {
-                    console.log(data)
                     setSuccess("Issue added successfully!");
                     setLoading(false);  
 
@@ -131,7 +130,6 @@ const CreateProject = () => {
         } else {
         axios.post('http://localhost:8080/projects', data,{ headers: { 'Accept': 'application/json', 'Authorization': 'Bearer ' + localStorage.getItem('token')} })
             .then(res => {
-                console.log(res);
                 setLoading(false);  
 
                 history.push('/home');

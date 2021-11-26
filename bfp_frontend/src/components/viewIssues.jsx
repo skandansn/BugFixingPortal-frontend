@@ -17,7 +17,6 @@ const ViewIssues = () => {
         axios.get(`http://localhost:8080/projects/${id.id}/issues`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setIssues(res.data);
-            console.log(res.data);
             setLoading(false);
             // setProject(res.data);
             // setLoading(false);

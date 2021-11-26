@@ -8,6 +8,7 @@ import SideNavbar from "./sidenavbar";
 const ViewProject = () => {
     const [project, setProject] = useState({});
     const [isLoading, setLoading] = useState(true);
+    const [downloadNo, setDownloadNo] = useState(0);
     const history = useHistory();
     const id = useParams()
     const [buttons, setButtons] = useState(false);
@@ -22,12 +23,23 @@ const ViewProject = () => {
         })
     }
 
+    //function axios patch to increase download count
+    const increaseDownloadCount = () => {
+        axios.get(`http://localhost:8080/projects/${id.id}/download`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
+        .then(res => {
+            setDownloadNo('');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
 
 
     useEffect(() => {
         axios.get(`http://localhost:8080/projects/${id.id}`,{headers: {'Authorization': 'Bearer '+localStorage.getItem('token')}})
         .then(res => {
             setProject(res.data);
+            setDownloadNo(res.data.projectDownloadNo);
             const token = localStorage.getItem('token');
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace('-', '+').replace('_', '/');
@@ -44,7 +56,7 @@ const ViewProject = () => {
         .catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [downloadNo]);
 
     
 
@@ -67,8 +79,8 @@ const ViewProject = () => {
                     <hr></hr>
                     {/* <p>Description: {project.projectDesc}</p> */}
                     {/* <p>Files: {project.projectFiles}</p> */}
-                    <button className="btn-warning btn-lg"><a href={project.projectFiles} style={{"text-decoration": "none","color":"black"}}>Download Code</a></button>
-                    <p>Download Count: {project.projectDownloadNo}</p>
+                    <button onClick = {increaseDownloadCount} className="btn-warning btn-lg"><a href={project.projectFiles} style={{"text-decoration": "none","color":"black"}}>Download Code</a></button>
+                    <p>Download Count: {downloadNo}</p>
                     {/* <Link to={`/createProject/${project.projectId}`} className="btn btn-success">Edit Project</Link> */}
                     {/* <Link to={`/createProject/${project.projectId}i`} className="btn btn-warning">Add Issues</Link> */}
                     {/* <Link to={`/projects/${project.projectId}/issues`} className="btn btn-secondary">View Issues</Link> */}

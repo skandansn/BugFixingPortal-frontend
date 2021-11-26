@@ -6,7 +6,6 @@ import Loader from '../routes/Loader';
 
 const AboutUser = (props) => {
     const userData=props.location.state.userData;
-    console.log(userData);
   
     //display the user data with css card style
     return (
@@ -22,7 +21,6 @@ const AboutUser = (props) => {
                                         <p><b>Email: {userData.userEmail}</b> </p>
                                         <p><b>About: {userData.userBio}</b> </p>
                                         <p><b>Bug count: {userData.userBugsReported}</b> </p>
-                                        <p><b>User rating: {userData.userRating}/5</b> </p>
                                         <hr />
                                         <p><b>Projects added:</b> </p>
                                        {/* card style to display each individual project */}
@@ -49,17 +47,6 @@ const AboutUser = (props) => {
                                             ))}
                                         </ul>
                                         <hr />
-                                        <p><b>Solutions added:</b></p>
-                                        <ul>
-                                            {userData.solutions.map(solution => (
-                                                <div className="card bg-warning mar-top" key={solution.solutionId}>
-                                                <div className="card-body">
-                                                    <p>{solution.solutionTitle}</p>
-                                                </div>
-                                            </div>
-                                            ))}
-                                        </ul>
-
                                     </div>
                             </p>
                         </div>

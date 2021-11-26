@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { storage } from "../services/firebase";
 import { ref,uploadBytes,getDownloadURL   } from "firebase/storage";
+import Loader from "../routes/Loader";
 
 const Register = () => {
     const history = useHistory();
@@ -12,7 +13,7 @@ const Register = () => {
     const [error, setError] = useState({});
     const [imageAsFile, setImageAsFile] = useState('')
     const [imageAsUrl, setImageAsUrl] = useState('')
-
+    const [loading, setLoading] = useState(false);
 
     const handleImageAsFile = (e) => {
         const image = e.target.files[0]
@@ -23,6 +24,7 @@ const Register = () => {
   
     const handleSubmit = (event) => {
         event.preventDefault();
+        setLoading(true);
         inputs["userRating"] = 0;
         inputs["userBugsReported"]=0;
         // console.log(inputs);
@@ -36,6 +38,7 @@ const Register = () => {
             inputs["userPic"]=url;
             axios.post(API_BASE_URL+"auth/register",inputs)
             .then(res => {
+                setLoading(false);
                 if(res.data === "User registered successfully"){
                     history.push("/login");    
                 }
@@ -47,7 +50,6 @@ const Register = () => {
                 console.log(err);
                 setError(err.response.data);
             });
-        console.log(inputs);
           }));
         });
         
@@ -70,7 +72,10 @@ const Register = () => {
 
 
     return (
-        <div className="login-cot bg-danger" id="layoutAuthentication">
+        <div>
+                {loading?  <Loader/>
+                :
+                <div className="login-cot bg-danger" id="layoutAuthentication">
 
             <div id="layoutAuthentication_content">
                 <main>
@@ -141,6 +146,9 @@ const Register = () => {
                 </main>
             </div>
         </div>
+            
+                                            }</div>
+        
     );
 }
 

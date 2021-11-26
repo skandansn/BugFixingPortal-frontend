@@ -8,14 +8,13 @@ const Login = () => {
     const history = useHistory();
     const API_BASE_URL="http://localhost:8080/";
     const [inputs, setInputs] = useState({});
+    const [error, setError] = useState('');
 
     const handleSubmit = (event) => {
-        console.log(inputs);
         event.preventDefault();
         axios.post(API_BASE_URL+"auth/login",inputs)
         .then(res => {
             if(res.status === 200){
-                console.log(res.data);
                 localStorage.setItem("token", res.data.token);
                 //refresh
                 window.location.reload();
@@ -24,7 +23,7 @@ const Login = () => {
             }
         })
         .catch(err => {
-            console.log(err);
+            setError('Check the credentials of your username and password and try again!');
         });
     }
 
@@ -93,6 +92,7 @@ const Login = () => {
                                                     {/* <Link to="/" className="btn btn-success" >Login</Link> */}
                                                 </div>
                                             </form>
+                                            {error && <div className="alert alert-danger">{error}</div>}
                                         </div>
                                         <div className="card-footer text-center py-3">
                                             <div className="small"><Link className="text-light" to="/register">Need an account? Sign up!</Link></div>
