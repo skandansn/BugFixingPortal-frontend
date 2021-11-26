@@ -32,6 +32,8 @@ const ViewSolutions = () => {
                         <SideNavbar />
                         <div className="grid-chid-b bg-danger " id="desc-container">
                             <div>
+                            {/* <Link onClick={history.goBack} className="btn btn-success">Add Solution</Link>     */}
+                            <button className="btn btn-success mr-10" onClick={() => history.goBack()}>Back</button>
                             <Link to={`/createProject/s${id2}p${id}`} className="btn btn-success">Add Solution</Link>
                             <table className="table table-striped bg-light mar-top">
               <thead>

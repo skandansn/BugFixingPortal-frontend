@@ -43,7 +43,7 @@ const ViewIssues = () => {
                       <th scope="col">Description</th>
                       <th scope="col">Files</th>
                       <th scope="col">Created By</th>
-                      <th scope="col">Solutions</th>
+                      <th style={{"width":"40%"}} scope="col">Solutions</th>
 
                   </tr>
               </thead>
@@ -61,10 +61,10 @@ const ViewIssues = () => {
                               <td>{issue.user.userHandle}</td>
                                 <td>
                                 <Link to={`/createProject/s${issue.issueId}p${id.id}`}>
-                                        <button className="btn btn-warning mr-10">Give Solution</button>
+                                        <button className="btn btn-warning mr-10 mar-top">Give Solution</button>
                                     </Link>
                                     <Link to={`/projects/${id.id}/issues/${issue.issueId}/solutions`}>
-                                        <button className="btn btn-warning">View Solutions</button>
+                                        <button className="btn btn-warning mar-top">View Solutions</button>
                                     </Link>
                                 </td>
                           </tr>
